@@ -30,8 +30,20 @@ const disablePlugins = (eslintConfig: any, pluginNames: string[]) => {
         delete nextEslintConfig.rules[key];
       }
     }
+
+    for (const [key] of Object.entries(nextEslintConfig.env)) {
+      if (key.startsWith(pluginName + '/')) {
+        delete nextEslintConfig.rules[key];
+      }
+    }
   }
 
+  if (nextEslintConfig.processor && nextEslintConfig.processor.startsWith(pluginName + '/')) {
+    delete nextEslintConfig.processor;
+  }
+  
+  nextEslintConfig.overrides = nextEslintConfig.overrides.map(override => disablePlugins(override, pluginNames))
+  
   return nextEslintConfig;
 };
 
