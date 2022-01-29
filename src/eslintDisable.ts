@@ -33,7 +33,7 @@ const disablePlugins = (eslintConfig: any, pluginNames: string[]) => {
 
     for (const [key] of Object.entries(nextEslintConfig.env)) {
       if (key.startsWith(pluginName + '/')) {
-        delete nextEslintConfig.rules[key];
+        delete nextEslintConfig.env[key];
       }
     }
   }
